@@ -4,18 +4,44 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Easy Cook — Legal</title>
+<link rel="stylesheet" href="legal.css">
+<!-- Records that scripting is on before anything paints, so the stacked no-JS layout never flashes. -->
+<script>document.documentElement.className = 'js';</script>
 <style>
-  body { font: 16px/1.6 -apple-system, system-ui, sans-serif; max-width: 640px; margin: 3rem auto; padding: 0 1rem; color: #1a1a1a; }
-  h1 { font-size: 1.6rem; }
-  a { display: block; margin: 0.6rem 0; font-size: 1.1rem; }
-  .muted { color: #666; }
+  /* The index is a list of links rather than prose, so its anchors sit on their own lines. Scoped to
+     `section` so it can't reach the switcher pills, which lang.js inserts as a sibling of the sections. */
+  section a { display: block; margin: .6rem 0; font-size: 1.1rem; }
 </style>
 </head>
 <body>
+
+<section data-lang="en" data-title="Easy Cook — Legal">
 <h1>Easy Cook — Legal</h1>
-<p class="muted">Юридические документы приложения Easy Cook / Easy Cook app legal documents.</p>
-<a href="privacy-policy.html">Privacy Policy · Политика конфиденциальности</a>
-<a href="terms.html">Terms of Use · Условия использования</a>
+<p class="muted">Legal documents for the Easy Cook app.</p>
+<a href="privacy-policy.html#en">Privacy Policy</a>
+<a href="terms.html#en">Terms of Use</a>
+<a href="support.html#en">Support</a>
 <p class="muted">Contact: dev.alexey.tarasoff@gmail.com</p>
+</section>
+
+<section data-lang="ru" lang="ru" data-title="Easy Cook — Документы">
+<h1>Easy Cook — Документы</h1>
+<p class="muted">Юридические документы приложения Easy Cook.</p>
+<a href="privacy-policy.html#ru">Политика конфиденциальности</a>
+<a href="terms.html#ru">Условия использования</a>
+<a href="support.html#ru">Поддержка</a>
+<p class="muted">Связь: dev.alexey.tarasoff@gmail.com</p>
+</section>
+
+<section data-lang="es" lang="es" data-title="Easy Cook — Documentos">
+<h1>Easy Cook — Documentos</h1>
+<p class="muted">Documentos legales de la aplicación Easy Cook.</p>
+<a href="privacy-policy.html#es">Política de privacidad</a>
+<a href="terms.html#es">Condiciones de uso</a>
+<a href="support.html#es">Soporte</a>
+<p class="muted">Contacto: dev.alexey.tarasoff@gmail.com</p>
+</section>
+
+<script src="lang.js"></script>
 </body>
 </html>

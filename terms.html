@@ -4,18 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Easy Cook — Terms of Use</title>
-<style>
-  body { font: 16px/1.6 -apple-system, system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
-  h1 { font-size: 1.6rem; } h2 { font-size: 1.15rem; margin-top: 1.6rem; }
-  hr { margin: 3rem 0; border: none; border-top: 1px solid #ddd; }
-  .muted { color: #666; }
-</style>
+<link rel="stylesheet" href="legal.css">
+<!-- Records that scripting is on before anything paints, so the stacked no-JS layout never flashes. -->
+<script>document.documentElement.className = 'js';</script>
 </head>
 <body>
 
 <!-- Host this file and use its URL in the store listings if you provide a custom EULA.
-     Keep in sync with the in-app version in Sources/HelloSkip/Localization/LegalDocuments.swift. -->
+     The wording is the in-app document from Sources/HelloSkip/Localization/LegalDocuments.swift,
+     paragraph for paragraph — HostedLegalPagesTests fails if the two stop saying the same thing. -->
 
+<section data-lang="en" data-title="Easy Cook — Terms of Use">
 <h1>Easy Cook — Terms of Use</h1>
 <p class="muted">Effective date: 20 June 2026</p>
 
@@ -48,13 +47,12 @@
 
 <h2>8. Contact</h2>
 <p>Questions: dev.alexey.tarasoff@gmail.com</p>
+</section>
 
-<hr>
+<section data-lang="ru" lang="ru" data-title="Easy Cook — Условия использования">
+<h1>Easy Cook — Условия использования</h1>
+<p class="muted">Дата вступления в силу: 20 июня 2026</p>
 
-<h1 lang="ru">Easy Cook — Условия использования</h1>
-<p class="muted" lang="ru">Дата вступления в силу: 20 июня 2026</p>
-
-<div lang="ru">
 <h2>1. Принятие условий</h2>
 <p>Используя Easy Cook, вы соглашаетесь с этими Условиями. Если вы не согласны — не используйте приложение.</p>
 
@@ -84,7 +82,43 @@
 
 <h2>8. Контакты</h2>
 <p>Вопросы: dev.alexey.tarasoff@gmail.com</p>
-</div>
+</section>
 
+<section data-lang="es" lang="es" data-title="Easy Cook — Condiciones de uso">
+<h1>Easy Cook — Condiciones de uso</h1>
+<p class="muted">Fecha de entrada en vigor: 20 de junio de 2026</p>
+
+<h2>1. Aceptación</h2>
+<p>Al usar Easy Cook aceptas estas Condiciones. Si no estás de acuerdo, no uses la aplicación.</p>
+
+<h2>2. Licencia</h2>
+<p>Te concedemos una licencia personal, no exclusiva e intransferible para usar la aplicación con fines propios y no comerciales.</p>
+
+<h2>3. Suscripciones (Premium)</h2>
+<p>Premium desbloquea las instrucciones paso a paso con temporizadores. Las suscripciones son de renovación automática y se ofrecen por meses o por año; el precio exacto y el periodo se muestran en la aplicación antes de la compra.</p>
+<ul>
+  <li>El pago se carga a tu Apple ID / cuenta de Google al confirmar.</li>
+  <li>La suscripción se renueva automáticamente salvo que la canceles al menos 24 horas antes del final del periodo en curso.</li>
+  <li>Puedes gestionarla o cancelarla cuando quieras en los ajustes de tu cuenta de App Store / Google Play.</li>
+  <li>Los reembolsos los gestionan Apple/Google según sus normas; nosotros no podemos hacer reembolsos a través de la tienda.</li>
+</ul>
+
+<h2>4. Advertencia sobre el contenido</h2>
+<p>Las recetas, los valores nutricionales y los consejos se ofrecen con fines informativos generales. Comprueba siempre los ingredientes según tus alérgenos y tus restricciones alimentarias. No respondemos por el resultado de preparar o consumir ningún plato.</p>
+
+<h2>5. Uso aceptable</h2>
+<p>No abuses de la aplicación, no intentes interrumpir su funcionamiento y no la uses de forma ilegal.</p>
+
+<h2>6. Exención de garantías y responsabilidad</h2>
+<p>La aplicación se ofrece «tal cual», sin garantías de ningún tipo. En la máxima medida permitida por la ley, no somos responsables de los daños indirectos o incidentales derivados del uso de la aplicación.</p>
+
+<h2>7. Cambios</h2>
+<p>Podemos actualizar estas Condiciones; seguir usando la aplicación tras los cambios implica su aceptación.</p>
+
+<h2>8. Contacto</h2>
+<p>Preguntas: dev.alexey.tarasoff@gmail.com</p>
+</section>
+
+<script src="lang.js"></script>
 </body>
 </html>
