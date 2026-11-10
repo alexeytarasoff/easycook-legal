@@ -11,124 +11,166 @@
 <body>
 
 <!-- Host this file (e.g. GitHub Pages) and use its URL in App Store Connect + Google Play Console.
-     The wording is the in-app document from Sources/HelloSkip/Localization/LegalDocuments.swift,
-     paragraph for paragraph — HostedLegalPagesTests fails if the two stop saying the same thing,
-     because they had already drifted once with nothing to catch it. -->
+     This is the only copy: the app links here (LegalLinks) and carries no text of its own.
+     LegalPagesTests checks all three languages are present, numbered alike and dated alike, and
+     that the diagnostic code, iCloud and the contact address are disclosed in each. -->
 
 <section data-lang="en" data-title="Easy Cook — Privacy Policy">
 <h1>Easy Cook — Privacy Policy</h1>
-<p class="muted">Effective date: 23 August 2026</p>
+<p class="muted">Effective date: 2 October 2026</p>
 
 <p>This policy explains what data the Easy Cook app handles and how. The app has no sign-up and no user accounts.</p>
 
-<h2>1. Data stored only on your device</h2>
-<p>Your name, chosen avatar, dietary exclusions, the products you mark as available, your meal plan, favourites and cooking progress are stored locally on your device. We do not receive or store this data on our servers. It is removed when you delete the app or tap “Reset all data” in Settings.</p>
+<h2>1. Your data: on your device and in your iCloud</h2>
+<p>Your name and avatar, allergens and dietary exclusions, the products you mark as available, your meal plan, favourites, the app's language and theme, whether you have finished the introduction, the lifehacks you have hidden, and the recipes in “My book” are stored on your device. On iPhone they are also synced through your own private iCloud database — Apple keeps it under your Apple ID, and we cannot read it. That is how they appear on your other devices signed in to the same Apple ID, and how they come back when you reinstall the app or move to a new phone.</p>
+<p>Among the things that are not synced and stay on the device are the diagnostic code (see section 4), cooking progress and timers, notification settings, and the count of free openings. Your subscription reaches your other devices through Apple itself. If you are not signed in to iCloud on iPhone or have turned iCloud off for Easy Cook, nothing is synced and everything stays on the device. On Android, Easy Cook has no sync of its own: the data is kept on the device. If backup to your Google account is turned on in Android, the system may include this data in it — except the dish photos (see section 2). That backup is kept by Google under your account, and we cannot see it.</p>
+<p>None of this data reaches our servers.</p>
 
-<h2>2. Data we collect through third parties</h2>
-<p>To keep the app stable and improve it, we use Google Firebase:</p>
+<h2>2. My book</h2>
+<p>Recipes you write yourself live on your device and, on iPhone, in your iCloud, as described above. Only you can see them. The recipe itself — its name, ingredients, steps and photo — is never sent to our server and never reaches analytics or crash reports. Analytics learns only that a recipe was saved, how many ingredients and steps it has, and whether it has a photo. If the text fails our check, analytics learns which kind of rule it falls under, but not the text itself. Wherever an event would name a dish, a recipe from your book is replaced by a common placeholder.</p>
+<p>You can add a photo of the dish to your recipe. It is taken with the camera only — the app does not ask for access to your photo library. On iPhone the app asks for camera access; on Android the photo is taken by the system camera app, and Easy Cook itself does not request the camera permission. The photo is kept on your device with the recipe and, on iPhone, synced with it through your iCloud. On Android it stays on the device: Android's backup to your Google account leaves it out, and only a direct transfer from one phone to another may carry it over. Removing the photo or the recipe deletes the file, and with iCloud sync on, its copy in iCloud too.</p>
+
+<h2>3. Suggesting a new ingredient</h2>
+<p>If a product is missing from the list, you can suggest it. This is the only thing from “My book” that reaches our server, and only when you tap “Send”: the product name, an optional comment, the date and time, and an irreversible hash of a separate random identifier — not the diagnostic code. On iPhone it is kept in the Keychain, and it is the same one used for free openings (see section 4). The recipe itself is not sent.</p>
+<p>The suggestion is stored in Google Firebase (Cloud Firestore) and read by the person who maintains our product catalogue. A line with the name and comment is also written to our server log (Google Cloud Logging) and arrives by email to that person. The answer — whether the product was added — comes as a notification to this phone, if you allow notifications, and is shown in the book itself.</p>
+<p>A suggestion is kept for 30 days and then deleted automatically; “Reset all data” and deleting the app do not remove it sooner. If you want it deleted earlier, write to dev.alexey.tarasoff@gmail.com and tell us which products you suggested and roughly when — we will delete it from the database and from the maintainer's email. The line in the server log is deleted automatically after about 30 days.</p>
+
+<h2>4. Data we collect through third parties</h2>
+<p>To keep the app working and improve it, we use Google Firebase:</p>
 <ul>
-  <li>Firebase Analytics — anonymous usage events (screens opened, features used), plus a few impersonal traits: the app language, the App Store storefront your account belongs to, and your device's region setting. Not linked to your identity and not used for advertising or cross-app tracking.</li>
-  <li>Firebase Crashlytics — crash and performance diagnostics so we can fix bugs. Reports carry a random “diagnostic code” generated on your device (shown in Settings → About) so we can tell repeated reports from one app apart from reports from many. It is not derived from you or your device and identifies nothing outside our crash console; “Reset all data” discards it.</li>
-  <li>Firebase Cloud Messaging — notifications. Google issues the app a registration token; we keep it together with your chosen language and platform, so that notifications arrive in a language you read. The token is tied to neither your name nor an account, is issued afresh on reinstall, and is kept until it is replaced or ceases to be valid. If you refuse notifications in your device settings, we send you nothing.</li>
+  <li>Firebase Analytics — anonymous usage events (screens opened, features used), plus non-personal attributes, for example: the app language, the App Store storefront your account belongs to, your device's region setting, whether you have a subscription, whether notifications are allowed, and rough counts such as how many products you marked or dishes you planned — never which ones. Not linked to your identity and not used for advertising or cross-app tracking.</li>
+  <li>Firebase Crashlytics — crash and performance diagnostics so we can fix bugs. Reports carry a random “diagnostic code” generated on your device (you can see it and send it to us from the app's Settings) so we can tell repeated reports from one app apart from reports from many. It is not derived from you or your device and identifies nothing outside our crash console; “Reset all data” discards it.</li>
+  <li>Firebase Cloud Messaging — notifications. Google issues the app a registration token; we keep it together with your chosen language and platform, so that notifications arrive in a language you read. Next to the token we keep the same irreversible hash used for free openings and the anonymous sign-in identifier described below. The token is tied to neither your name nor an account, is issued afresh on reinstall, and is kept until it is replaced or ceases to be valid. If you refuse notifications in your device settings, we send you nothing.</li>
+  <li>Firebase Authentication — an anonymous sign-in: the app receives a random technical identifier, with no account, name, email or phone number, only so that our server accepts its requests.</li>
+  <li>Firebase App Check — on iPhone the app confirms to our server, through Apple App Attest, that a request comes from a genuine copy of the app. This adds no personal data.</li>
 </ul>
 <p>Recipe and product content is delivered from Google Cloud Firestore/Storage; using it requires no personal data.</p>
 
-<p>The free openings of paid recipes and friend invitations are counted on our server: we store an irreversible hash of a random install identifier, a count of what was granted, and the code that was used. That hash identifies neither a device nor you.</p>
+<p>The free openings of paid recipes and friend invitations are counted on our server: we store an irreversible hash of a separate random identifier (not the diagnostic code) that on iPhone is kept in the Keychain, a count of what was granted, and the code that was used. That hash identifies neither a device nor you. On iPhone this identifier and the count of free openings are not synced, and neither deleting the app nor “Reset all data” erases them — otherwise the free openings could simply be claimed again.</p>
 
-<h2>3. Purchases</h2>
+<h2>5. Purchases</h2>
 <p>Subscriptions are processed by Apple (App Store) or Google (Google Play). We receive only your subscription status (active or not) — never your payment details.</p>
 
-<h2>4. Sharing</h2>
-<p>We do not sell your data. Data is processed by Google (Firebase) as our service provider and by Apple/Google for payments. No advertising networks are used.</p>
+<h2>6. Sharing</h2>
+<p>We do not sell your data. Data is processed by Google (Firebase and Google Cloud) as our service provider and by Apple/Google for payments. Synced data is kept by Apple in your iCloud. No advertising networks are used.</p>
 
-<h2>5. Data retention and deletion</h2>
-<p>On-device data is under your control (delete the app or use “Reset all data”). Analytics and crash data are retained according to Firebase defaults. To request deletion of any diagnostic data associated with your device, contact us at dev.alexey.tarasoff@gmail.com.</p>
+<h2>7. Data retention and deletion</h2>
+<p>The data on your device and in your iCloud is under your control. Deleting the app removes it from that device but not from iCloud: install the app again with the same Apple ID and it comes back. “Reset all data” in the app's Settings erases it on this device, in iCloud, and on your other devices where iCloud sync is on. You can also delete the iCloud copy in iOS Settings → your name → iCloud, under storage management.</p>
+<p>Analytics and crash data are retained according to Firebase defaults. Suggested ingredients are deleted automatically after 30 days, or earlier on request (see section 3). To request deletion of any diagnostic data associated with your device, contact us at dev.alexey.tarasoff@gmail.com.</p>
 
-<h2>6. Children</h2>
+<h2>8. Children</h2>
 <p>The app is not directed to children under 13 (or the minimum age in your country) and we do not knowingly collect their data.</p>
 
-<h2>7. Changes</h2>
+<h2>9. Changes</h2>
 <p>We may update this policy; the effective date above will change accordingly.</p>
 
-<h2>8. Contact</h2>
+<h2>10. Contact</h2>
 <p>Questions: dev.alexey.tarasoff@gmail.com</p>
 </section>
 
 <section data-lang="ru" lang="ru" data-title="Easy Cook — Политика конфиденциальности">
 <h1>Easy Cook — Политика конфиденциальности</h1>
-<p class="muted">Дата вступления в силу: 23 августа 2026</p>
+<p class="muted">Дата вступления в силу: 2 октября 2026</p>
 
 <p>Эта политика описывает, какие данные обрабатывает приложение Easy Cook. В приложении нет регистрации и аккаунтов.</p>
 
-<h2>1. Данные, которые хранятся только на устройстве</h2>
-<p>Ваше имя, выбранный аватар, исключения из рациона, отмеченные продукты, план блюд, избранное и прогресс готовки хранятся локально на вашем устройстве. Мы не получаем и не храним эти данные на своих серверах. Они удаляются при удалении приложения или по кнопке «Сбросить все данные» в настройках.</p>
+<h2>1. Ваши данные: на устройстве и в вашем iCloud</h2>
+<p>Ваше имя и аватар, аллергены и исключения из рациона, отмеченные продукты, план блюд, избранное, язык и тема приложения, пройденное знакомство с приложением, скрытые лайфхаки и рецепты из «Моей книги» хранятся на вашем устройстве. На iPhone они также синхронизируются через вашу личную базу в iCloud — её хранит Apple под вашим Apple ID, и прочитать её мы не можем. Благодаря этому данные появляются на других ваших устройствах с тем же Apple ID и возвращаются, если переустановить приложение или перейти на новый телефон.</p>
+<p>Не синхронизируются и остаются на устройстве, в частности, код диагностики (см. раздел 4), процесс готовки и таймеры, настройки уведомлений и счётчик бесплатных открытий. Подписку на ваши устройства передаёт сама Apple. Если на iPhone вы не вошли в iCloud или отключили iCloud для Easy Cook, ничего не синхронизируется и всё хранится только на устройстве. На Android у Easy Cook нет своей синхронизации: данные хранятся на устройстве. Если в Android включено резервное копирование в аккаунт Google, система может включить в эту копию и эти данные — кроме фотографий блюд (см. раздел 2). Эту копию хранит Google под вашим аккаунтом, и мы её не видим.</p>
+<p>На наши серверы эти данные не попадают.</p>
 
-<h2>2. Данные, которые мы собираем через сторонние сервисы</h2>
-<p>Для стабильности и улучшения приложения мы используем Google Firebase:</p>
+<h2>2. «Моя книга»</h2>
+<p>Рецепты, которые вы записываете сами, хранятся на устройстве и, на iPhone, в вашем iCloud — как описано выше. Видите их только вы. Сам рецепт — название, ингредиенты, шаги и фотография — никогда не отправляется на наш сервер и не попадает ни в аналитику, ни в отчёты о сбоях. Аналитика узнаёт только, что рецепт сохранён, сколько в нём ингредиентов и шагов и есть ли у него фотография. Если текст не прошёл нашу проверку, аналитика узнаёт, к какому виду правил он относится, но не сам текст. Там, где событие назвало бы блюдо, рецепт из вашей книги заменяется общей пометкой.</p>
+<p>К рецепту можно добавить фотографию блюда. Её снимают только камерой — доступ к вашей галерее приложение не запрашивает. На iPhone приложение просит доступ к камере; на Android снимок делает системное приложение камеры, а сам Easy Cook разрешение на камеру не запрашивает. Фотография хранится на устройстве вместе с рецептом и, на iPhone, синхронизируется вместе с ним через ваш iCloud. На Android она остаётся на устройстве: в резервную копию в аккаунте Google она не попадает и может переехать на новый телефон только при прямом переносе данных со старого. Если удалить фотографию или рецепт, файл удаляется, а при включённой синхронизации с iCloud — и его копия в iCloud.</p>
+
+<h2>3. Предложение нового ингредиента</h2>
+<p>Если нужного продукта нет в списке, его можно предложить. Это единственное, что из «Моей книги» уходит на наш сервер, и только когда вы сами нажмёте «Отправить»: название продукта, необязательный комментарий, дата и время, а также необратимый хэш отдельного случайного идентификатора (не кода диагностики), который на iPhone хранится в связке ключей, — того же, что для бесплатных открытий (см. раздел 4). Сам рецепт не отправляется.</p>
+<p>Предложение хранится в Google Firebase (Cloud Firestore), его просматривает человек, который ведёт наш каталог продуктов. Строка с названием и комментарием также записывается в журнал нашего сервера (Google Cloud Logging) и приходит этому человеку письмом. Ответ — добавлен продукт или нет — приходит уведомлением на этот телефон, если уведомления разрешены, и виден в самой книге.</p>
+<p>Предложение хранится 30 дней и затем удаляется автоматически; «Сбросить все данные» и удаление приложения раньше его не удаляют. Если хотите удалить его раньше, напишите на dev.alexey.tarasoff@gmail.com и укажите, какие продукты и примерно когда вы предлагали, — мы удалим его из базы и из почты оператора. Строка в журнале сервера удаляется автоматически примерно через 30 дней.</p>
+
+<h2>4. Данные, которые мы собираем через сторонние сервисы</h2>
+<p>Для работы и улучшения приложения мы используем Google Firebase:</p>
 <ul>
-  <li>Firebase Analytics — анонимные события использования (какие экраны открыты, какие функции использованы), а также обезличенные признаки: язык приложения, витрина App Store, к которой относится ваш аккаунт, и регион в настройках устройства. Не привязаны к вашей личности и не используются для рекламы или межприложенческого трекинга.</li>
-  <li>Firebase Crashlytics — диагностика сбоев и производительности, чтобы исправлять ошибки. К отчётам прикладывается случайный «код диагностики», созданный на вашем устройстве (показан в настройках, раздел «О приложении»): он нужен, чтобы отличить несколько отчётов с одного устройства от отчётов с разных. Он не выводится ни из вас, ни из вашего устройства и ничего не значит за пределами нашей консоли сбоев; «Сбросить все данные» удаляет и его.</li>
-  <li>Firebase Cloud Messaging — уведомления. Google выдаёт приложению регистрационный токен; мы храним его вместе с выбранным языком и платформой, чтобы отправлять уведомления на понятном вам языке. Токен не связан с именем или аккаунтом, выдаётся заново при переустановке и хранится, пока не будет заменён или не перестанет действовать. Если запретить уведомления в настройках устройства, мы ничего не отправим.</li>
+  <li>Firebase Analytics — анонимные события использования (какие экраны открыты, какие функции использованы), а также обезличенные признаки, например: язык приложения, витрина App Store, к которой относится ваш аккаунт, регион в настройках устройства, есть ли подписка, разрешены ли уведомления, и приблизительные количества — например, сколько продуктов отмечено или блюд в плане, но никогда какие именно. Не привязаны к вашей личности и не используются для рекламы или межприложенческого трекинга.</li>
+  <li>Firebase Crashlytics — диагностика сбоев и производительности, чтобы исправлять ошибки. К отчётам прикладывается случайный «код диагностики», созданный на вашем устройстве (его можно посмотреть и отправить нам из настроек приложения): он нужен, чтобы отличить несколько отчётов с одного устройства от отчётов с разных. Он не выводится ни из вас, ни из вашего устройства и ничего не значит за пределами нашей консоли сбоев; «Сбросить все данные» удаляет и его.</li>
+  <li>Firebase Cloud Messaging — уведомления. Google выдаёт приложению регистрационный токен; мы храним его вместе с выбранным языком и платформой, чтобы отправлять уведомления на понятном вам языке. Рядом с токеном хранятся тот же необратимый хэш, что и для бесплатных открытий, и анонимный идентификатор входа, о котором сказано ниже. Токен не связан с именем или аккаунтом, выдаётся заново при переустановке и хранится, пока не будет заменён или не перестанет действовать. Если запретить уведомления в настройках устройства, мы ничего не отправим.</li>
+  <li>Firebase Authentication — анонимный вход: приложение получает случайный технический идентификатор, без аккаунта, имени, почты или телефона, только чтобы наш сервер принимал его запросы.</li>
+  <li>Firebase App Check — на iPhone приложение подтверждает нашему серверу через Apple App Attest, что запрос пришёл от подлинной копии приложения. Персональных данных это не добавляет.</li>
 </ul>
 <p>Контент рецептов и продуктов поставляется из Google Cloud Firestore/Storage; для его использования личные данные не требуются.</p>
 
-<p>Бесплатные открытия платных рецептов и приглашения друзей считаются на нашем сервере: мы храним необратимый хэш случайного идентификатора установки, число начислений и использованный код. По этому хэшу нельзя определить ни устройство, ни вас.</p>
+<p>Бесплатные открытия платных рецептов и приглашения друзей считаются на нашем сервере: мы храним необратимый хэш отдельного случайного идентификатора (не кода диагностики), который на iPhone хранится в связке ключей (Keychain), число начислений и использованный код. По этому хэшу нельзя определить ни устройство, ни вас. На iPhone этот идентификатор и счётчик бесплатных открытий не синхронизируются, и их не стирают ни удаление приложения, ни «Сбросить все данные» — иначе бесплатные открытия можно было бы получать заново.</p>
 
-<h2>3. Покупки</h2>
+<h2>5. Покупки</h2>
 <p>Подписки обрабатываются Apple (App Store) или Google (Google Play). Мы получаем только статус подписки (активна или нет) — никогда платёжные данные.</p>
 
-<h2>4. Передача данных</h2>
-<p>Мы не продаём ваши данные. Данные обрабатываются Google (Firebase) как нашим поставщиком услуг и Apple/Google для платежей. Рекламные сети не используются.</p>
+<h2>6. Передача данных</h2>
+<p>Мы не продаём ваши данные. Данные обрабатываются Google (Firebase и Google Cloud) как нашим поставщиком услуг и Apple/Google для платежей. Синхронизируемые данные хранит Apple в вашем iCloud. Рекламные сети не используются.</p>
 
-<h2>5. Хранение и удаление</h2>
-<p>Данные на устройстве под вашим контролем (удалите приложение или нажмите «Сбросить все данные»). Аналитика и данные о сбоях хранятся по умолчанию Firebase. Чтобы запросить удаление диагностических данных, связанных с вашим устройством, напишите на dev.alexey.tarasoff@gmail.com.</p>
+<h2>7. Хранение и удаление</h2>
+<p>Данные на устройстве и в вашем iCloud под вашим контролем. Удаление приложения стирает их с этого устройства, но не из iCloud: если снова установить приложение с тем же Apple ID, они вернутся. «Сбросить все данные» в настройках приложения стирает их на этом устройстве, в iCloud и на других ваших устройствах, где включена синхронизация с iCloud. Копию в iCloud можно удалить и в настройках iOS: ваше имя → iCloud, раздел управления хранилищем.</p>
+<p>Аналитика и данные о сбоях хранятся по умолчанию Firebase. Предложенные ингредиенты удаляются автоматически через 30 дней или раньше по запросу (см. раздел 3). Чтобы запросить удаление диагностических данных, связанных с вашим устройством, напишите на dev.alexey.tarasoff@gmail.com.</p>
 
-<h2>6. Дети</h2>
+<h2>8. Дети</h2>
 <p>Приложение не предназначено для детей младше 13 лет (или минимального возраста в вашей стране), и мы сознательно не собираем их данные.</p>
 
-<h2>7. Изменения</h2>
+<h2>9. Изменения</h2>
 <p>Мы можем обновлять эту политику; дата вступления в силу выше будет соответственно меняться.</p>
 
-<h2>8. Контакты</h2>
+<h2>10. Контакты</h2>
 <p>Вопросы: dev.alexey.tarasoff@gmail.com</p>
 </section>
 
 <section data-lang="es" lang="es" data-title="Easy Cook — Política de privacidad">
 <h1>Easy Cook — Política de privacidad</h1>
-<p class="muted">Fecha de entrada en vigor: 23 de agosto de 2026</p>
+<p class="muted">Fecha de entrada en vigor: 2 de octubre de 2026</p>
 
 <p>Esta política describe qué datos trata la aplicación Easy Cook. La aplicación no tiene registro ni cuentas de usuario.</p>
 
-<h2>1. Datos que se guardan solo en tu dispositivo</h2>
-<p>Tu nombre, el avatar elegido, las exclusiones de tu dieta, los productos que marcas como disponibles, tu plan de platos, los favoritos y el progreso de cocinado se guardan localmente en tu dispositivo. No recibimos ni almacenamos estos datos en nuestros servidores. Se eliminan al desinstalar la aplicación o al pulsar «Borrar todos los datos» en los ajustes.</p>
+<h2>1. Tus datos: en tu dispositivo y en tu iCloud</h2>
+<p>Tu nombre y avatar, los alérgenos y exclusiones de tu dieta, los productos que marcas como disponibles, tu plan de platos, los favoritos, el idioma y el tema de la aplicación, si ya completaste la presentación, los trucos que ocultaste y las recetas de «Mi libro» se guardan en tu dispositivo. En el iPhone además se sincronizan a través de tu propia base de datos privada de iCloud: la guarda Apple bajo tu Apple ID y nosotros no podemos leerla. Así aparecen en tus otros dispositivos con el mismo Apple ID y vuelven si reinstalas la aplicación o cambias de teléfono.</p>
+<p>No se sincronizan y se quedan en el dispositivo, entre otras cosas, el código de diagnóstico (ver sección 4), el progreso de cocinado y los temporizadores, los ajustes de notificaciones y el contador de aperturas gratuitas. Tu suscripción llega a tus otros dispositivos a través de la propia Apple. Si en el iPhone no has iniciado sesión en iCloud o has desactivado iCloud para Easy Cook, no se sincroniza nada y todo se queda en el dispositivo. En Android, Easy Cook no tiene sincronización propia: los datos se guardan en el dispositivo. Si en Android está activada la copia de seguridad en tu cuenta de Google, el sistema puede incluir en ella estos datos, salvo las fotos de los platos (ver sección 2). Esa copia la guarda Google bajo tu cuenta y nosotros no podemos verla.</p>
+<p>Ninguno de estos datos llega a nuestros servidores.</p>
 
-<h2>2. Datos que recogemos a través de servicios de terceros</h2>
-<p>Para mantener la aplicación estable y mejorarla usamos Google Firebase:</p>
+<h2>2. Mi libro</h2>
+<p>Las recetas que escribes tú se guardan en tu dispositivo y, en el iPhone, en tu iCloud, como se explica arriba. Solo tú puedes verlas. La receta en sí —su nombre, ingredientes, pasos y foto— nunca se envía a nuestro servidor ni llega a la analítica o a los informes de fallos. La analítica solo sabe que se guardó una receta, cuántos ingredientes y pasos tiene y si tiene foto. Si el texto no pasa nuestra comprobación, la analítica sabe a qué tipo de regla corresponde, pero no el texto en sí. Allí donde un evento nombraría un plato, una receta de tu libro se sustituye por una marca común.</p>
+<p>Puedes añadir a tu receta una foto del plato. Se hace solo con la cámara: la aplicación no pide acceso a tu galería de fotos. En el iPhone la aplicación pide acceso a la cámara; en Android la foto la hace la aplicación de cámara del sistema y Easy Cook no solicita el permiso de cámara. La foto se guarda en tu dispositivo junto con la receta y, en el iPhone, se sincroniza con ella a través de tu iCloud. En Android se queda en el dispositivo: no entra en la copia de seguridad en tu cuenta de Google, y solo una transferencia directa de un teléfono a otro puede llevarla consigo. Si borras la foto o la receta, se elimina el archivo y, con la sincronización de iCloud activada, también su copia en iCloud.</p>
+
+<h2>3. Proponer un ingrediente nuevo</h2>
+<p>Si falta un producto en la lista, puedes proponerlo. Es lo único de «Mi libro» que llega a nuestro servidor, y solo cuando pulsas «Enviar»: el nombre del producto, un comentario opcional, la fecha y la hora, y un hash irreversible de un identificador aleatorio aparte, que no es el código de diagnóstico. En el iPhone se guarda en el llavero, y es el mismo que se usa para las aperturas gratuitas (ver sección 4). La receta no se envía.</p>
+<p>La propuesta se guarda en Google Firebase (Cloud Firestore) y la revisa la persona que mantiene nuestro catálogo de productos. Una línea con el nombre y el comentario también se escribe en el registro de nuestro servidor (Google Cloud Logging) y le llega a esa persona por correo. La respuesta —si el producto se añadió o no— llega como notificación a este teléfono, si permites las notificaciones, y se ve en el propio libro.</p>
+<p>Una propuesta se conserva 30 días y después se elimina automáticamente; «Borrar todos los datos» y desinstalar la aplicación no la eliminan antes. Si quieres que la eliminemos antes, escribe a dev.alexey.tarasoff@gmail.com e indica qué productos propusiste y más o menos cuándo: la borraremos de la base de datos y del correo de la persona que la revisa. La línea del registro del servidor se elimina automáticamente al cabo de unos 30 días.</p>
+
+<h2>4. Datos que recogemos a través de servicios de terceros</h2>
+<p>Para que la aplicación funcione y para mejorarla usamos Google Firebase:</p>
 <ul>
-  <li>Firebase Analytics — eventos de uso anónimos (qué pantallas se abren, qué funciones se usan), además de algunos rasgos impersonales: el idioma de la aplicación, la tienda de App Store a la que pertenece tu cuenta y la región configurada en tu dispositivo. No están vinculados a tu identidad y no se usan para publicidad ni para seguimiento entre aplicaciones.</li>
-  <li>Firebase Crashlytics — diagnóstico de fallos y de rendimiento, para poder corregir errores. A los informes se adjunta un «código de diagnóstico» aleatorio generado en tu dispositivo (visible en los ajustes, sección «Acerca de»): sirve para distinguir varios informes de un mismo dispositivo de informes de dispositivos distintos. No se deriva de ti ni de tu dispositivo y no significa nada fuera de nuestra consola de fallos; «Borrar todos los datos» también lo elimina.</li>
-  <li>Firebase Cloud Messaging — notificaciones. Google entrega a la app un token de registro; lo guardamos junto con el idioma elegido y la plataforma, para que las notificaciones lleguen en un idioma que leas. El token no está vinculado ni a tu nombre ni a una cuenta, se emite de nuevo al reinstalar y se conserva hasta que se sustituye o deja de ser válido. Si rechazas las notificaciones en los ajustes del dispositivo, no te enviamos nada.</li>
+  <li>Firebase Analytics — eventos de uso anónimos (qué pantallas se abren, qué funciones se usan), además de datos no personales, por ejemplo: el idioma de la aplicación, la tienda de App Store a la que pertenece tu cuenta, la región configurada en tu dispositivo, si tienes suscripción, si las notificaciones están permitidas y cantidades aproximadas —por ejemplo, cuántos productos marcaste o cuántos platos hay en tu plan, pero nunca cuáles—. No están vinculados a tu identidad y no se usan para publicidad ni para seguimiento entre aplicaciones.</li>
+  <li>Firebase Crashlytics — diagnóstico de fallos y de rendimiento, para poder corregir errores. A los informes se adjunta un «código de diagnóstico» aleatorio generado en tu dispositivo (puedes verlo y enviárnoslo desde los ajustes de la aplicación): sirve para distinguir varios informes de un mismo dispositivo de informes de dispositivos distintos. No se deriva de ti ni de tu dispositivo y no significa nada fuera de nuestra consola de fallos; «Borrar todos los datos» también lo elimina.</li>
+  <li>Firebase Cloud Messaging — notificaciones. Google entrega a la app un token de registro; lo guardamos junto con el idioma elegido y la plataforma, para que las notificaciones lleguen en un idioma que leas. Junto al token guardamos el mismo hash irreversible que se usa para las aperturas gratuitas y el identificador del inicio de sesión anónimo descrito más abajo. El token no está vinculado ni a tu nombre ni a una cuenta, se emite de nuevo al reinstalar y se conserva hasta que se sustituye o deja de ser válido. Si rechazas las notificaciones en los ajustes del dispositivo, no te enviamos nada.</li>
+  <li>Firebase Authentication — un inicio de sesión anónimo: la aplicación recibe un identificador técnico aleatorio, sin cuenta, nombre, correo ni teléfono, solo para que nuestro servidor acepte sus solicitudes.</li>
+  <li>Firebase App Check — en el iPhone la aplicación confirma a nuestro servidor, mediante Apple App Attest, que la solicitud viene de una copia auténtica de la aplicación. Esto no añade ningún dato personal.</li>
 </ul>
 <p>El contenido de recetas y productos se entrega desde Google Cloud Firestore/Storage; su uso no requiere datos personales.</p>
 
-<p>Las aperturas gratuitas de recetas de pago y las invitaciones a amigos se cuentan en nuestro servidor: guardamos un hash irreversible de un identificador de instalación aleatorio, un contador de lo concedido y el código usado. Ese hash no identifica ni a un dispositivo ni a ti.</p>
+<p>Las aperturas gratuitas de recetas de pago y las invitaciones a amigos se cuentan en nuestro servidor: guardamos un hash irreversible de un identificador aleatorio aparte (no el código de diagnóstico) que en el iPhone se guarda en el llavero (Keychain), un contador de lo concedido y el código usado. Ese hash no identifica ni a un dispositivo ni a ti. En el iPhone, ese identificador y el contador de aperturas gratuitas no se sincronizan, y ni desinstalar la aplicación ni «Borrar todos los datos» los eliminan; de lo contrario, las aperturas gratuitas podrían volver a obtenerse sin más.</p>
 
-<h2>3. Compras</h2>
+<h2>5. Compras</h2>
 <p>Las suscripciones las procesa Apple (App Store) o Google (Google Play). Solo recibimos el estado de tu suscripción (activa o no), nunca tus datos de pago.</p>
 
-<h2>4. Cesión de datos</h2>
-<p>No vendemos tus datos. Los datos los trata Google (Firebase) como nuestro proveedor de servicios, y Apple/Google para los pagos. No se utilizan redes publicitarias.</p>
+<h2>6. Cesión de datos</h2>
+<p>No vendemos tus datos. Los datos los trata Google (Firebase y Google Cloud) como nuestro proveedor de servicios, y Apple/Google para los pagos. Los datos sincronizados los guarda Apple en tu iCloud. No se utilizan redes publicitarias.</p>
 
-<h2>5. Conservación y eliminación</h2>
-<p>Los datos del dispositivo están bajo tu control (desinstala la aplicación o pulsa «Borrar todos los datos»). La analítica y los datos de fallos se conservan según los valores predeterminados de Firebase. Para solicitar la eliminación de los datos de diagnóstico asociados a tu dispositivo, escribe a dev.alexey.tarasoff@gmail.com.</p>
+<h2>7. Conservación y eliminación</h2>
+<p>Los datos de tu dispositivo y de tu iCloud están bajo tu control. Desinstalar la aplicación los borra de ese dispositivo, pero no de iCloud: si vuelves a instalarla con el mismo Apple ID, regresan. «Borrar todos los datos» en los ajustes de la aplicación los elimina en este dispositivo, en iCloud y en tus otros dispositivos que tengan activada la sincronización con iCloud. También puedes eliminar la copia de iCloud en los Ajustes de iOS: tu nombre → iCloud, en la gestión del almacenamiento.</p>
+<p>La analítica y los datos de fallos se conservan según los valores predeterminados de Firebase. Los ingredientes propuestos se eliminan automáticamente a los 30 días, o antes a petición (ver sección 3). Para solicitar la eliminación de los datos de diagnóstico asociados a tu dispositivo, escribe a dev.alexey.tarasoff@gmail.com.</p>
 
-<h2>6. Menores</h2>
+<h2>8. Menores</h2>
 <p>La aplicación no está dirigida a menores de 13 años (o la edad mínima de tu país) y no recogemos sus datos de forma consciente.</p>
 
-<h2>7. Cambios</h2>
+<h2>9. Cambios</h2>
 <p>Podemos actualizar esta política; la fecha de entrada en vigor indicada arriba cambiará en consecuencia.</p>
 
-<h2>8. Contacto</h2>
+<h2>10. Contacto</h2>
 <p>Preguntas: dev.alexey.tarasoff@gmail.com</p>
 </section>
 
